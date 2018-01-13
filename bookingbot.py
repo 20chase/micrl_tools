@@ -28,6 +28,8 @@ class BookingBot(object):
         self.keyboard.type_string(self._user_pwd)
         self.keyboard.tap_key(self.keyboard.enter_key)
         time.sleep(2)
+        self._click(350, 40, 2)
+        time.sleep(2)
 
     def book(self, sport_hours, sport_name='basketball', sport_day=7):
         self._login()
@@ -43,6 +45,7 @@ class BookingBot(object):
         else:
             print('Sorry, no available time')
             self.browser.close()
+            time.sleep(5)
             return 0
 
         self._confirm_booking()
@@ -76,14 +79,14 @@ class BookingBot(object):
         time.sleep(1)
 
     def _confirm_booking(self):
-        self._click(377, 600)
+        self._click(377, 610)
         self.keyboard.type_string(self._user_pwd)
         self.keyboard.tap_key(self.keyboard.enter_key)
 
-    def _click(self, x, y):
+    def _click(self, x, y, times=3):
         self.mouse.move(x, y)
         time.sleep(1)
-        self.mouse.click(x, y, 1, 3)
+        self.mouse.click(x, y, 1, times)
 
     def _get_day_pos(self, row ,column):
         return [300 + column * 27, 470 + row * 30]
@@ -127,7 +130,7 @@ if __name__ == '__main__':
         mintime = time.localtime(time.time()).tm_min
         print('Now time: {} day {} hour {} min'.format(daytime, hourtime, mintime))
         if daytime == args.book_day and hourtime == args.book_hour:
-            if bot.book([21], args.sport_name, args.sport_day) == 1:
+            if bot.book([15], args.sport_name, args.sport_day) == 1:
                 break
         else:
             time.sleep(60)
