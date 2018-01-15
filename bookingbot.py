@@ -50,15 +50,23 @@ class BookingBot(object):
                 self._user_pwd = msg['Text'][2:]
                 itchat.send(u'record your password', 'filehelper')
             elif 'bd=' in msg['Text']:
-                self._booking_day = msg['Text'][3:]
+                self._book_day = int(msg['Text'][3:])
+                itchat.send(u'record booking day: {}'.format(self._book_day), 'filehelper')
             elif 'bh=' in msg['Text']:
-                self._booking_hour = msg['Text'][3:]
+                self._book_hour = int(msg['Text'][3:])
+                itchat.send(u'record booking hour: {}'.format(self._book_hour), 'filehelper')
             elif 'sn=' in msg['Text']:
                 self._sport_name = msg['Text'][3:]
+                itchat.send(u'record sport name: {}'.format(self._sport_name), 'filehelper')
             elif 'sd=' in msg['Text']:
-                self._sport_day = msg['Text'][3:]
+                self._sport_day = int(msg['Text'][3:])
+                itchat.send(u'record sport day: {}'.format(self._sport_day), 'filehelper')
             elif 'sh=' in msg['Text']:
-                self._sport_hour = msg['Text'][3:]
+                in_msg = msg['Text'][3:]
+                itchat.send(u'record sport hours: {}'.format(in_msg), 'filehelper')
+                in_msg = in_msg.split(' ')
+                hour_list = [int(hour) for hour in in_msg]
+                self._sport_hour = hour_list
             elif msg['Text'] == u'start':
                 assert self._user_name is not None
                 assert self._user_pwd is not None
@@ -84,8 +92,6 @@ class BookingBot(object):
                             break
                     else:
                         time.sleep(60)
-            else:
-                itchat.send(u'input error', 'filehelper')
 
         itchat.auto_login(hotReload=True)
         # itchat.auto_login()
