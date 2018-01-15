@@ -50,15 +50,24 @@ class BookingBot(object):
                 self._user_pwd = msg['Text'][2:]
                 itchat.send(u'record your password', 'filehelper')
             elif 'bd=' in msg['Text']:
-                self._booking_day = msg['Text'][3:]
+                self._booking_day = int(msg['Text'][3:])
+                itchat.send(u'record booking day: {}'.format(self._book_day), 'filehelper')
             elif 'bh=' in msg['Text']:
-                self._booking_hour = msg['Text'][3:]
+                self._booking_hour = int(msg['Text'][3:])
+                itchat.send(u'record booking hour: {}'.format(self._book_hour), 'filehelper')
             elif 'sn=' in msg['Text']:
                 self._sport_name = msg['Text'][3:]
+                itchat.send(u'record sport name: {}'.format(self._sport_name), 'filehelper')
             elif 'sd=' in msg['Text']:
-                self._sport_day = msg['Text'][3:]
+                self._sport_day = int(msg['Text'][3:])
+                itchat.send(u'record sport day: {}'.format(self._sport_day), 'filehelper')
             elif 'sh=' in msg['Text']:
-                self._sport_hour = msg['Text'][3:]
+                in_msg = msg['Text'][3:]
+                itchat.send(u'record sport hours: {}'.format(in_msg), 'filehelper')
+                in_msg = in_msg.split(' ')
+                hour_list = [int(hour) for hour in in_msg]
+                self._sport_hour = hour_list
+
             elif msg['Text'] == u'start':
                 assert self._user_name is not None
                 assert self._user_pwd is not None
@@ -67,6 +76,11 @@ class BookingBot(object):
                 assert self._sport_name is not None
                 assert self._sport_day is not None
                 assert self._sport_hour is not None
+                itchat.send('booking day: {}\nbooking hour: {}\n'
+                            'sport name: {}\nsport day: {}\n'.format(self._book_day,
+                                                                     self._book_hour,
+                                                                     self._sport_name,
+                                                                     self._sport_day), 'filehelper')
 
                 while True:
                     daytime = time.localtime(time.time()).tm_mday
@@ -87,8 +101,8 @@ class BookingBot(object):
             else:
                 itchat.send(u'input error', 'filehelper')
 
-        itchat.auto_login(hotReload=True)
-        # itchat.auto_login()
+        # itchat.auto_login(hotReload=True)
+        itchat.auto_login()
         itchat.run()
 
     def _login(self):
@@ -119,11 +133,8 @@ class BookingBot(object):
         else:
             print('Sorry, no available time')
             self.browser.close()
-<<<<<<< HEAD
             time.sleep(30)
-=======
             time.sleep(5)
->>>>>>> 3b5277264e6d2382880b6a041519d84b73736938
             return 0
 
         self._confirm_booking()
@@ -200,6 +211,7 @@ class BookingBot(object):
         img = Image.fromarray(screen_roi)
         img.save('failed.jpg')
 
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='sports booking bot')
     parser.add_argument('--user_name', type=str, default=None)
@@ -211,28 +223,4 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     bot = BookingBot(args.user_name, args.user_pwd)
-<<<<<<< HEAD
     bot.start_wechat()
-    
-    # while True:
-    #     daytime = time.localtime(time.time()).tm_mday
-    #     hourtime = time.localtime(time.time()).tm_hour
-    #     mintime = time.localtime(time.time()).tm_min
-    #     print('Now time: {} day {} hour {} min'.format(daytime, hourtime, mintime))
-    #     if daytime == args.book_day and hourtime == args.book_hour:
-    #         if bot.book(range(21, 7, -1), args.sport_name, args.sport_day) == 1:
-    #             break
-    #     else:
-    #         time.sleep(60)
-=======
-    while True:
-        daytime = time.localtime(time.time()).tm_mday
-        hourtime = time.localtime(time.time()).tm_hour
-        mintime = time.localtime(time.time()).tm_min
-        print('Now time: {} day {} hour {} min'.format(daytime, hourtime, mintime))
-        if daytime == args.book_day and hourtime == args.book_hour:
-            if bot.book([15], args.sport_name, args.sport_day) == 1:
-                break
-        else:
-            time.sleep(60)
->>>>>>> 3b5277264e6d2382880b6a041519d84b73736938
