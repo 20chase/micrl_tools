@@ -1,3 +1,4 @@
 pyscreenshot
 selenium
 pyuserinput
+itchat
