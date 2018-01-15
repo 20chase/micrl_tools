@@ -50,10 +50,10 @@ class BookingBot(object):
                 self._user_pwd = msg['Text'][2:]
                 itchat.send(u'record your password', 'filehelper')
             elif 'bd=' in msg['Text']:
-                self._booking_day = int(msg['Text'][3:])
+                self._book_day = int(msg['Text'][3:])
                 itchat.send(u'record booking day: {}'.format(self._book_day), 'filehelper')
             elif 'bh=' in msg['Text']:
-                self._booking_hour = int(msg['Text'][3:])
+                self._book_hour = int(msg['Text'][3:])
                 itchat.send(u'record booking hour: {}'.format(self._book_hour), 'filehelper')
             elif 'sn=' in msg['Text']:
                 self._sport_name = msg['Text'][3:]
