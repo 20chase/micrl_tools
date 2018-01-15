@@ -98,8 +98,7 @@ class BookingBot(object):
                             break
                     else:
                         time.sleep(60)
-            else:
-                itchat.send(u'input error', 'filehelper')
+
 
         # itchat.auto_login(hotReload=True)
         itchat.auto_login()
